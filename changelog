@@ -1,0 +1,5 @@
+grub2 (2.99-1) unstable; urgency=medium
+
+  * Remove offending debian/patches/efi-variable-storage-minimise-writes.patch
+
+ -- Vladimir Vinogradenko <vladimirv@ixsystems.com>  Thu, 25 Mar 2021 20:18:00 +0200
