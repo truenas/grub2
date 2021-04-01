@@ -1,4 +1,4 @@
-grub2 (2.99-2) unstable; urgency=medium
+grub2 (2.99-3) unstable; urgency=medium
 
   * Remove offending debian/patches/efi-variable-storage-minimise-writes.patch
 
