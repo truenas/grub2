@@ -1,0 +1,16 @@
+--- a/util/grub-mkrescue.c
++++ b/util/grub-mkrescue.c
+@@ -807,6 +807,13 @@
+       else if (source_dirs[GRUB_INSTALL_PLATFORM_I386_EFI])
+ 	grub_install_copy_file (img32, img_mac, 1);
+ 
++      // We've just built a minimalistic bootx64.efi.
++      // It does not support `search` command which we need to make TrueNAS ISO working in
++      // Rufus "ISO Image mode".
++      // Let's just replace it with pre-built Debian GRUB EFI image that official Debian
++      // ISO installer uses.
++      grub_install_copy_file ("/usr/lib/grub/x86_64-efi/monolithic/grubx64.efi", img64, 1);
++
+       free (img_mac);
+       free (img32);
+       free (img64);
