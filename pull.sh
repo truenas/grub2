@@ -21,3 +21,10 @@ cp zpool-degraded-vdev.patch debian/patches
 echo 'zpool-degraded-vdev.patch' >> debian/patches/series
 
 echo -e "$(cat changelog)\n\n$(cat debian/changelog)" > debian/changelog
+
+sed -i.bak "s/deb_version\s*:=.\+/deb_version\t\t:= "'"'"$VERSION-$REVISION"'"'"/" debian/rules
+rm debian/rules.bak
+
+sed -i.bak "s/^version_binary.\+/version_binary="'"'"$VERSION-$REVISION"'"'"/" debian/signing-template.generate
+sed -i.bak "s/^version_mangled.\+/version_mangled="'"'"$VERSION"'"'"/" debian/signing-template.generate
+rm debian/signing-template.generate.bak

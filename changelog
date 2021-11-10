@@ -1,4 +1,4 @@
-grub2 (2.99-5) unstable; urgency=medium
+grub2 (2.99-6) unstable; urgency=medium
 
   * Remove offending debian/patches/efi-variable-storage-minimise-writes.patch
   * Add zpool-degraded-vdev.patch
