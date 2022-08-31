@@ -1,0 +1,74 @@
+diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
+index b7135b655..5c6bc5213 100644
+--- a/util/grub.d/00_header.in
++++ b/util/grub.d/00_header.in
+@@ -252,27 +252,53 @@ fi
+ EOF
+ fi
+ 
+-case x${GRUB_TERMINAL_INPUT} in
+-  x)
+-    # Just use the native terminal
+-  ;;
+-  x*)
+-    cat << EOF
++#
++# If both 'serial' and 'gfxterm' are enabled, check if we can load
++# 'gfxterm' successfully. If gfxterm fails, terminal_output falls back
++# to 'console' by default which would cause double output in EFI boot
++# mode if serial is also enabled.
++#
++# 'gfxterm' would fail if there are no graphics option present on the
++# system and it outputs to graphics devices only. If we fail to load
++# 'gfxterm', reset terminal_input and temrinal_output to 'serial' only.
++#
++# If either serial or gfxterm is not enabled, follow the the default
++# path for routing terminal_input and terminal_output.
++#
++
++if [ "x$serial" = x1 ] && [ "x$gfxterm" = x1 ]; then
++  cat << EOF
++if terminal_output gfxterm; then
++  terminal_output --append serial
++  terminal_input ${GRUB_TERMINAL_INPUT}
++else
++  terminal_input serial
++  terminal_output serial
++fi
++EOF
++else
++  case x${GRUB_TERMINAL_INPUT} in
++    x)
++      # Just use the native terminal
++    ;;
++    x*)
++      cat << EOF
+ terminal_input ${GRUB_TERMINAL_INPUT}
+ EOF
+-  ;;
+-esac
++    ;;
++  esac
+ 
+-case x${GRUB_TERMINAL_OUTPUT} in
+-  x)
+-    # Just use the native terminal
+-  ;;
+-  x*)
+-    cat << EOF
++  case x${GRUB_TERMINAL_OUTPUT} in
++    x)
++      # Just use the native terminal
++    ;;
++    x*)
++      cat << EOF
+ terminal_output ${GRUB_TERMINAL_OUTPUT}
+ EOF
+-  ;;
+-esac
++    ;;
++  esac
++fi
+ 
+ if [ "x$gfxterm" = x1 ]; then
+     if [ "x$GRUB_THEME" != x ] && [ -f "$GRUB_THEME" ] \

@@ -1,3 +1,9 @@
+grub2 (2.99-8) unstable; urgency=medium
+
+  * Add rectify-temrinal-io.patch
+
+ -- Umer Saleem <usaleem@ixsystems.com>  Wed, 31 Aug 2022 21:13:12 +0500
+
 grub2 (2.99-7) unstable; urgency=medium
 
   * Remove offending debian/patches/efi-variable-storage-minimise-writes.patch
