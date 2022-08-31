@@ -1,0 +1,60 @@
+diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
+index b7135b655..32e608105 100644
+--- a/util/grub.d/00_header.in
++++ b/util/grub.d/00_header.in
+@@ -252,27 +252,39 @@ fi
+ EOF
+ fi
+ 
+-case x${GRUB_TERMINAL_INPUT} in
+-  x)
+-    # Just use the native terminal
+-  ;;
+-  x*)
+-    cat << EOF
++if [ "x$serial" = x1 ] && [ "x$gfxterm" = x1 ]; then
++  cat << EOF
++if terminal_output gfxterm; then
++  terminal_output --append serial
++  terminal_input ${GRUB_TERMINAL_INPUT}
++else
++  terminal_input serial
++  terminal_output serial
++fi
++EOF
++else
++  case x${GRUB_TERMINAL_INPUT} in
++    x)
++      # Just use the native terminal
++    ;;
++    x*)
++      cat << EOF
+ terminal_input ${GRUB_TERMINAL_INPUT}
+ EOF
+-  ;;
+-esac
++    ;;
++  esac
+ 
+-case x${GRUB_TERMINAL_OUTPUT} in
+-  x)
+-    # Just use the native terminal
+-  ;;
+-  x*)
+-    cat << EOF
++  case x${GRUB_TERMINAL_OUTPUT} in
++    x)
++      # Just use the native terminal
++    ;;
++    x*)
++      cat << EOF
+ terminal_output ${GRUB_TERMINAL_OUTPUT}
+ EOF
+-  ;;
+-esac
++    ;;
++  esac
++fi
+ 
+ if [ "x$gfxterm" = x1 ]; then
+     if [ "x$GRUB_THEME" != x ] && [ -f "$GRUB_THEME" ] \
