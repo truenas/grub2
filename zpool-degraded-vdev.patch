@@ -1,10 +1,45 @@
 --- a/grub-core/osdep/unix/getroot.c
 +++ b/grub-core/osdep/unix/getroot.c
-@@ -295,7 +295,7 @@
+@@ -230,6 +230,7 @@
+   char *line;
+   size_t len;
+   int st;
++  int replacing;
+ 
+   char name[PATH_MAX + 1], state[257], readlen[257], writelen[257];
+   char cksum[257], notes[257];
+@@ -256,6 +257,7 @@
+     }
+ 
+   st = 0;
++  replacing = 0;
+   while (1)
+     {
+       line = NULL;
+@@ -290,12 +292,26 @@
+ 	    }
+ 	    break;
+ 	  case 2:
++	    if (sscanf (name, "replacing-%u", &dummy))
++	      {
++		replacing = 2; // we only support two-way mirrors for boot pools
++	      }
++	    else
++	      {
++		if (replacing)
++		  {
++		    replacing--;
++		  }
++	      }
+ 	    if (strcmp (name, "mirror") && !sscanf (name, "mirror-%u", &dummy)
+ 		&& !sscanf (name, "raidz%u", &dummy)
  		&& !sscanf (name, "raidz1%u", &dummy)
  		&& !sscanf (name, "raidz2%u", &dummy)
  		&& !sscanf (name, "raidz3%u", &dummy)
 -		&& !strcmp (state, "ONLINE"))
++		&& !sscanf (name, "replacing-%u", &dummy)
++		// only install on a new device in `replacing-` vdev
++		&& !(replacing > 0 && !strstr (notes, "resilvering"))
 +		&& (!strcmp (state, "ONLINE") || !strcmp (state, "DEGRADED")))
  	      {
  		if (ndevices >= devices_allocated)
