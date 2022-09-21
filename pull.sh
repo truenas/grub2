@@ -17,6 +17,9 @@ rm debian/patches/series.bak
 cp zpool-degraded-vdev.patch debian/patches
 echo 'zpool-degraded-vdev.patch' >> debian/patches/series
 
+cp rectify-terminal-io.patch debian/patches
+echo 'rectify-terminal-io.patch' >> debian/patches/series
+
 echo -e "$(cat changelog)\n\n$(cat debian/changelog)" > debian/changelog
 
 sed -i.bak "s/deb_version\s*:=.\+/deb_version\t\t:= "'"'"$VERSION-$REVISION"'"'"/" debian/rules
