@@ -28,3 +28,5 @@ rm debian/rules.bak
 sed -i.bak "s/^version_binary.\+/version_binary="'"'"$VERSION-$REVISION"'"'"/" debian/signing-template.generate
 sed -i.bak "s/^version_mangled.\+/version_mangled="'"'"$VERSION"'"'"/" debian/signing-template.generate
 rm debian/signing-template.generate.bak
+
+echo -e "\ndh_auto_test:\n" >> debian/rules
