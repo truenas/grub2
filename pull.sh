@@ -1,6 +1,6 @@
 #!/bin/bash -ex
-VERSION=2.06
-REVISION=13
+VERSION=2.12
+REVISION=7
 
 wget http://deb.debian.org/debian/pool/main/g/grub2/grub2_$VERSION-$REVISION.debian.tar.xz
 tar xf grub2_$VERSION-$REVISION.debian.tar.xz
@@ -15,12 +15,12 @@ sed -i.bak 's/efi-variable-storage-minimise-writes.patch//' debian/patches/serie
 rm debian/patches/series.bak
 
 cp zpool-degraded-vdev.patch debian/patches
-echo 'zpool-degraded-vdev.patch' >> debian/patches/series
+echo 'zpool-degraded-vdev.patch' >>debian/patches/series
 
 cp rectify-terminal-io.patch debian/patches
-echo 'rectify-terminal-io.patch' >> debian/patches/series
+echo 'rectify-terminal-io.patch' >>debian/patches/series
 
-echo -e "$(cat changelog)\n\n$(cat debian/changelog)" > debian/changelog
+echo -e "$(cat changelog)\n\n$(cat debian/changelog)" >debian/changelog
 
 sed -i.bak "s/deb_version\s*:=.\+/deb_version\t\t:= "'"'"$VERSION-$REVISION"'"'"/" debian/rules
 rm debian/rules.bak
@@ -29,4 +29,4 @@ sed -i.bak "s/^version_binary.\+/version_binary="'"'"$VERSION-$REVISION"'"'"/" d
 sed -i.bak "s/^version_mangled.\+/version_mangled="'"'"$VERSION"'"'"/" debian/signing-template.generate
 rm debian/signing-template.generate.bak
 
-echo -e "\ndh_auto_test:\n" >> debian/rules
+echo -e "\ndh_auto_test:\n" >>debian/rules
