@@ -1,3 +1,9 @@
+grub2 (2.99-9) unstable; urgency=medium
+ 
+   * Add sbat entry for secure boot
+ 
+  -- Ameer Hamza <ahamza@ixsystems.com>  Mon, 28 Apr 2025 21:13:12 +0500
+
 grub2 (2.99-8) unstable; urgency=medium
 
   * Add rectify-temrinal-io.patch
