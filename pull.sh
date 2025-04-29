@@ -14,6 +14,10 @@ rm debian/patches/efi-variable-storage-minimise-writes.patch
 sed -i.bak 's/efi-variable-storage-minimise-writes.patch//' debian/patches/series
 rm debian/patches/series.bak
 
+rm debian/patches/efivar-check-that-efivarfs-is-writeable.patch
+sed -i.bak 's/efivar-check-that-efivarfs-is-writeable.patch//' debian/patches/series
+rm debian/patches/series.bak
+
 cp zpool-degraded-vdev.patch debian/patches
 echo 'zpool-degraded-vdev.patch' >>debian/patches/series
 
