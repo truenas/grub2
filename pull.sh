@@ -1,6 +1,6 @@
 #!/bin/bash -ex
-VERSION=2.06
-REVISION=13
+VERSION=2.12
+REVISION=1~bpo12+1
 
 wget http://deb.debian.org/debian/pool/main/g/grub2/grub2_$VERSION-$REVISION.debian.tar.xz
 tar xf grub2_$VERSION-$REVISION.debian.tar.xz
