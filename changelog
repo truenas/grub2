@@ -1,3 +1,15 @@
+grub2 (2.12-1~bpo12+truenas3) bookworm-security; urgency=medium
+
+   * Bump upstream SBAT level to 5
+
+  -- Ameer Hamza <ahamza@ixsystems.com>  Mon, 5 May 2025 21:13:12 +0500
+
+grub2 (2.12-1~bpo12+truenas2) bookworm-security; urgency=medium
+
+   * Backport 2025-02 CVE fixes
+
+  -- Ameer Hamza <ahamza@ixsystems.com>  Mon, 5 May 2025 21:13:12 +0500
+
 grub2 (2.12-1~bpo12+truenas1) unstable; urgency=medium
 
    * Add sbat entry for TrueNAS
