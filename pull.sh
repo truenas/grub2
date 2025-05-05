@@ -10,6 +10,9 @@ wget http://deb.debian.org/debian/pool/main/g/grub2/grub2_$VERSION.orig.tar.xz
 tar xf grub2_$VERSION.orig.tar.xz --strip 1
 rm grub2_$VERSION.orig.tar.xz
 
+sed -i '/efivar-check-that-efivarfs-is-writeable.patch/d' debian/patches/series
+rm -f debian/patches/efivar-check-that-efivarfs-is-writeable.patch
+
 rm debian/patches/efi-variable-storage-minimise-writes.patch
 sed -i.bak 's/efi-variable-storage-minimise-writes.patch//' debian/patches/series
 rm debian/patches/series.bak
