@@ -1,6 +1,7 @@
 grub2 (2.12-1~bpo12+0) unstable; urgency=medium
 
   * Import Debian 2.12 backport packaging (version 2.12-1~bpo12+0).
+  * Add sbat entry for TrueNAS
 
  -- Waqar <waqar@ixsystems.com>  Tue, 06 May 2025 10:00:00 +0500
 
