@@ -106,6 +106,9 @@ echo 'cve_2025_02_multiple/fs-xfs-Handle-root-inode-read-failure-in-grub_xfs_mou
 cp sbat_to_5.patch debian/patches
 echo 'sbat_to_5.patch' >> debian/patches/series
 
+cp truenas-mkrescue-install-signed-shim.patch debian/patches
+echo 'truenas-mkrescue-install-signed-shim.patch' >> debian/patches/series
+
 echo -e "$(cat changelog)\n\n$(cat debian/changelog)" > debian/changelog
 
 sed -i.bak "s/deb_version\s*:=.\+/deb_version\t\t:= "'"'"$VERSION-$REVISION"'"'"/" debian/rules

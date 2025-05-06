@@ -1,0 +1,63 @@
+diff --git a/util/grub-mkrescue.c b/util/grub-mkrescue.c
+index abcc1c2..b9d3d98 100644
+--- a/util/grub-mkrescue.c
++++ b/util/grub-mkrescue.c
+@@ -845,13 +845,57 @@ main (int argc, char *argv[])
+       else if (source_dirs[GRUB_INSTALL_PLATFORM_I386_EFI])
+ 	grub_install_copy_file (img32, img_mac, 1);
+
++      /*
++       * TRUENAS EDIT START
++       * The following code is a quirk to support the TrueNAS CD Builder.
++       * It copies the signed shim and grub binaries to the EFI boot directory
++       * and creates a grub.cfg that loads the TrueNAS kernel.
++       * This is only needed for TrueNAS CD builds, and should not be used in
++       * other environments.
++       */
++      if (getenv("TRUENAS_CD_BUILDER_SHIM_QUIRK") && source_dirs[GRUB_INSTALL_PLATFORM_X86_64_EFI])
++        {
++          grub_util_info ("======\nNOTE: found TRUENAS_CD_BUILDER_SHIM_QUIRK in environment, enabling quirk!\n======");
++
++          /*
++           * /usr/lib/shim/shimx64.efi.signed -> efidir_efi_boot/BOOTx64.EFI
++           * /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed -> efidir_efi_boot/grubx64.efi
++           */
++          const char *signed_shim_source = "/usr/lib/shim/shimx64.efi.signed";
++          char *signed_shim_target = xasprintf("%s/bootx64.efi", efidir_efi_boot);
++
++          const char *signed_grub_source = "/usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed";
++          char *signed_grub_target = xasprintf("%s/grubx64.efi", efidir_efi_boot);
++
++          char *efidir_debian = grub_util_path_concat(2, efidir_efi, "debian");
++          grub_install_mkdir_p(efidir_debian);
++          char *load_cfg = xasprintf("%s/grub.cfg", efidir_debian);
++          FILE *load_cfg_f = grub_util_fopen (load_cfg, "wb");
++          fprintf (load_cfg_f, "search --file --set=root /.disk/info\n");
++          fprintf (load_cfg_f, "set prefix=($root)/boot/grub\n");
++          fprintf (load_cfg_f, "source $prefix/x86_64-efi/grub.cfg\n");
++          fclose (load_cfg_f);
++
++          rv = grub_util_exec ((const char * []) { "cp", signed_shim_source, signed_shim_target, NULL });
++          if (rv != 0)
++            grub_util_error ("`%s` invocation failed\n", "cp");
++
++          rv = grub_util_exec ((const char * []) { "cp", signed_grub_source, signed_grub_target, NULL });
++          if (rv != 0)
++            grub_util_error ("`%s` invocation failed\n", "cp");
++          free(load_cfg);
++          free(efidir_debian);
++          free(signed_grub_target);
++          free(signed_shim_target);
++        } /* TRUENAS EDIT END */
++
+       free (img_mac);
+       free (img32);
+       free (img64);
+       free (efidir_efi_boot);
+ 
+       efiimgfat = grub_util_path_concat (2, iso9660_dir, "efi.img");
+-      rv = grub_util_exec ((const char * []) { "mformat", "-C", "-f", "2880", "-L", "16", "-i",
++      rv = grub_util_exec ((const char * []) { "mformat", "-C", "-T", "16384", "-L", "16", "-i",
+ 	    efiimgfat, "::", NULL });
+       if (rv != 0)
+ 	grub_util_error ("`%s` invocation failed\n", "mformat");
