@@ -1,6 +1,6 @@
 #!/bin/bash -ex
-VERSION=2.06
-REVISION=13
+VERSION=2.12
+REVISION=1~bpo12+1
 
 wget http://deb.debian.org/debian/pool/main/g/grub2/grub2_$VERSION-$REVISION.debian.tar.xz
 tar xf grub2_$VERSION-$REVISION.debian.tar.xz
@@ -9,6 +9,12 @@ rm grub2_$VERSION-$REVISION.debian.tar.xz
 wget http://deb.debian.org/debian/pool/main/g/grub2/grub2_$VERSION.orig.tar.xz
 tar xf grub2_$VERSION.orig.tar.xz --strip 1
 rm grub2_$VERSION.orig.tar.xz
+
+# At the time we bumped version to 2.12-1, we were not seeing efivar.c present in the debian
+# source at https://deb.debian.org/debian/pool/main/g/grub2/grub2_2.12.orig.tar.xz
+# which resulted in this patch failing and hence it has been removed
+sed -i '/efivar-check-that-efivarfs-is-writeable.patch/d' debian/patches/series
+rm -f debian/patches/efivar-check-that-efivarfs-is-writeable.patch
 
 rm debian/patches/efi-variable-storage-minimise-writes.patch
 sed -i.bak 's/efi-variable-storage-minimise-writes.patch//' debian/patches/series
