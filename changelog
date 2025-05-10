@@ -4,6 +4,7 @@ grub2 (2.12-1~bpo12+0) unstable; urgency=medium
   * Add sbat entry for TrueNAS
   * Backport 2025-02 CVE fixes
   * Bump upstream SBAT level to 5
+  * mkrescue: add opt-in quirk to support copying the shim for secure-boot
 
  -- Waqar <waqar@ixsystems.com>  Tue, 06 May 2025 10:00:00 +0500
 
