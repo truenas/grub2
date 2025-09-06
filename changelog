@@ -1,3 +1,11 @@
+grub2 (2.12-9+truenas1) unstable; urgency=medium
+
+  * Update to Debian Trixie version 2.12-9 for compatibility
+  * Fix package conflicts with grub-efi-amd64-unsigned
+  * Maintain TrueNAS patches and SBAT entries
+
+ -- Waqar <waqar@ixsystems.com>  Fri, 06 Sep 2025 14:45:00 +0500
+
 grub2 (2.12-1~bpo12+0) unstable; urgency=medium
 
   * Import Debian 2.12 backport packaging (version 2.12-1~bpo12+0).
