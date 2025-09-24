@@ -1,3 +1,9 @@
+grub2 (2.12-9) UNRELEASED; urgency=medium
+
+  * Match Debian version to fix grub-efi-amd64-signed dependency conflict
+
+ -- Ameer Hamza <ameer.hamza@truenas.com>  Wed, 24 Sep 2025 15:45:00 +0500
+
 grub2 (2.12-9+truenas1) unstable; urgency=medium
 
   * Update to Debian Trixie version 2.12-9 for compatibility
